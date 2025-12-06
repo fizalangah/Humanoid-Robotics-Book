@@ -1,0 +1,124 @@
+---
+id: 'ros2-overview'
+title: 'ROS 2: The Robotic Operating System'
+description: An introduction to ROS 2, covering its architecture, key concepts, and basic hands-on examples for robotics.
+version: '1.0'
+author: Fiza
+---
+## Learning Objectives
+
+This chapter will help you:
+- **Understand ROS 2 Architecture**: Grasp the fundamental structure and components of ROS 2.
+- **Identify Key Concepts**: Learn about nodes, topics, services, and actions in ROS 2.
+- **Perform Basic ROS 2 Operations**: Gain hands-on experience with core ROS 2 functionalities.
+- **Appreciate ROS 2's Role**: Recognize how ROS 2 facilitates advanced robotics development.
+
+## Introduction
+
+Welcome to ROS 2, the Robotic Operating System! ROS 2 is an open-source framework designed to help you build robot applications. It provides a flexible environment for writing robot software, offering tools, libraries, and conventions that simplify the complex task of developing robotics systems. Whether you're working on a simple mobile robot or a sophisticated humanoid, ROS 2 offers the modularity and communication infrastructure needed for various robotic applications. This chapter will introduce you to the core concepts of ROS 2, its architecture, and provide hands-on examples to get you started.
+
+## ROS 2 Architecture
+
+ROS 2's architecture is built around a distributed system, allowing different components of a robot (e.g., sensors, actuators, navigation algorithms) to communicate seamlessly. Key elements include:
+- **Nodes**: Executable processes that perform computation (e.g., a node to read sensor data, another to control motors).
+- **ROS Graph**: A network of nodes communicating with each other.
+- **DDS (Data Distribution Service)**: The middleware that enables reliable and real-time communication between nodes, providing discovery, serialization, and transport.
+
+<div class="ai-generated-image">
+  <img src="/img/ros2-architecture-overview.png" alt="ROS 2 Architecture Overview" />
+  <p class="image-caption">AI-Generated Image: ROS 2 Architecture Overview</p>
+</div>
+
+```python
+# Example: Simple ROS 2 node (conceptual)
+# This snippet illustrates what a basic ROS 2 node in Python might look like.
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+
+class SimplePublisher(Node):
+    def __init__(self):
+        super().__init__('simple_publisher')
+        self.publisher_ = self.create_publisher(String, 'chatter', 10)
+        timer_period = 0.5  # seconds
+        self.timer = self.create_timer(timer_period, self.timer_callback)
+        self.i = 0
+
+    def timer_callback(self):
+        msg = String()
+        msg.data = 'Hello ROS 2: %d' % self.i
+        self.publisher_.publish(msg)
+        self.get_logger().info('Publishing: "%s"' % msg.data)
+        self.i += 1
+
+def main(args=None):
+    rclpy.init(args=args)
+    simple_publisher = SimplePublisher()
+    rclpy.spin(simple_publisher)
+    simple_publisher.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+## Key Concepts (Nodes, Topics, Services, Actions)
+
+Understanding these core concepts is crucial for working with ROS 2:
+- **Nodes**: Autonomous processes that perform specific tasks. They are isolated, fault-tolerant, and communicate via message passing.
+- **Topics**: A named bus over which nodes exchange messages. Publishers send data to topics, and subscribers receive data from them. Topics are used for continuous, asynchronous data streams (e.g., sensor readings, motor commands).
+- **Services**: A request/reply communication mechanism for nodes. A client node sends a request to a service-server node, which performs an operation and sends back a response. Services are synchronous and used for single, one-time requests (e.g., changing a robot's mode).
+- **Actions**: A long-running task communication mechanism, extending services with feedback and cancellability. An action client sends a goal to an action server, which provides continuous feedback on progress until the goal is achieved or cancelled (e.g., moving a robot to a specific location).
+
+## Hands-On ROS 2 Basics
+
+To get started with ROS 2, you'll typically use command-line tools.
+First, ensure your ROS 2 environment is sourced:
+
+```bash
+# On Linux/macOS
+source /opt/ros/humble/setup.bash # Replace humble with your ROS 2 distribution
+# On Windows (PowerShell)
+# C:\dev\ros2\local_setup.ps1
+```
+
+**1. Running Nodes:**
+You can run a pre-built demo node:
+```bash
+ros2 run demo_nodes_cpp talker
+```
+In another terminal, run a listener node:
+```bash
+ros2 run demo_nodes_py listener
+```
+
+**2. Listing Topics:**
+To see active topics:
+```bash
+ros2 topic list
+```
+
+**3. Echoing Topics:**
+To view messages being published on a topic:
+```bash
+ros2 topic echo /chatter
+```
+
+<div class="ai-generated-image">
+  <img src="/img/ros2-cli-tools-in-action.png" alt="ROS 2 Command-Line Tools in Action" />
+  <p class="image-caption">AI-Generated Image: ROS 2 Command-Line Tools in Action</p>
+</div>
+
+## Summary
+
+ROS 2 is a powerful and flexible framework for robotics development, providing a robust communication infrastructure through DDS, and clear interaction patterns with nodes, topics, services, and actions. By understanding its architecture and core concepts, developers can build complex and distributed robotic applications efficiently. The command-line tools offer a straightforward way to interact with and debug ROS 2 systems, forming the foundation for more advanced robotics projects.
+
+## Glossary (optional)
+
+- **Node**: An executable process that performs a specific computation within a ROS 2 system.
+- **Topic**: A named channel for asynchronous, many-to-many communication in ROS 2.
+- **Service**: A request/reply communication mechanism for synchronous, one-to-one interaction in ROS 2.
+- **Action**: A communication mechanism for long-running tasks in ROS 2, providing goal, feedback, and result.
+- **DDS (Data Distribution Service)**: The underlying middleware used by ROS 2 for communication.
+- **rclpy**: The Python client library for ROS 2.
+- **rclcpp**: The C++ client library for ROS 2.

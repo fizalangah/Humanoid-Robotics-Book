@@ -1,3 +1,29 @@
+---
+id: 0001
+title: Project Constitution Defined
+stage: constitution
+date: 2025-12-04
+surface: agent
+model: claude-sonnet-4-5-20250929
+feature: none
+branch: master
+user: User
+command: /sp.constitution
+labels: [project-setup, governance]
+links:
+  spec: null
+  ticket: null
+  adr: null
+  pr: null
+files:
+ - .specify/memory/constitution.md
+tests:
+ - N/A
+---
+
+## Prompt
+
+```text
 # Project Constitution — AI/Spec-Driven Textbook
 # Title: Physical AI & Humanoid Robotics
 # Stack: Docusaurus + Claude Code + SpecKit Plus
@@ -108,3 +134,23 @@ The project is considered Constitution-compliant when:
 ## Immutability
 This Constitution must be committed before creating any chapter specifications.
 All future work inherits these rules and cannot violate them.
+```
+
+## Response snapshot
+
+Confirmed the project constitution. This PHR documents the initial definition of the project's governing principles and standards.
+
+## Outcome
+
+- ✅ Impact: Constitution confirmed.
+- 🧪 Tests: Not applicable
+- 📁 Files: .specify/memory/constitution.md written.
+- 🔁 Next prompts: N/A
+- 🧠 Reflection: PHR created for initial constitution.
+
+## Evaluation notes (flywheel)
+
+- Failure modes observed: Not applicable
+- Graders run and results (PASS/FAIL): Not applicable
+- Prompt variant (if applicable): Not applicable
+- Next experiment (smallest change to try): Not applicable

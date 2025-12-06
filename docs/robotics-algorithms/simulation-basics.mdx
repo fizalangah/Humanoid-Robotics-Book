@@ -1,0 +1,130 @@
+---
+id: 'simulation-basics'
+title: 'Simulation with Gazebo and Unity'
+description: An introduction to robotic simulation, covering Gazebo and Unity, and their applications in humanoid robotics advancement.
+---
+
+## Learning Objectives
+
+This chapter will help you:
+- **Understand Robotic Simulation**: Grasp the importance and various types of robotic simulation.
+- **Explore Gazebo Fundamentals**: Learn about Gazebo's architecture, models, and basic interaction.
+- **Discover Unity Robotics Simulation**: Understand Unity's capabilities for robot simulation and its integration with ROS 2.
+- **Apply Simulation in Robotics Development**: Recognize how simulation aids in design, testing, and training of robotic systems.
+
+## Introduction to Robotic Simulation
+
+Robotic simulation creates virtual robot and environment replicas, enabling algorithm testing, rapid prototyping, data generation, and training without physical hardware. Simulators vary from simple 2D to complex 3D physics-based worlds.
+
+## Gazebo Fundamentals
+
+Gazebo is a powerful 3D robotics simulator tightly integrated with ROS 2, offering realistic physics and sensor simulation. It supports various physics engines, allows importing/creating robot models (URDF, SDF), and extends functionality with custom plugins for comprehensive robotics development.
+
+```xml
+<!-- Example: Simple Gazebo world file snippet (conceptual) -->
+<sdf version='1.6'>
+  <world name='default'>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>
+
+<div class="ai-generated-image">
+  <img src="/img/gazebo-simulation-environment.png" alt="Gazebo Simulation Environment" />
+  <p class="image-caption">AI-Generated Image: Gazebo Simulation Environment</p>
+</div>
+
+## Unity Robotics Simulation
+
+Unity, a leading real-time 3D development platform, provides advanced graphics and physics for high-fidelity robotics simulation. The Unity Robotics Hub integrates Unity with robotic workflows, offering features like high-fidelity rendering, advanced physics, ROS 2 integration, and the ML-Agents Toolkit for reinforcement learning.
+
+```python
+# Example: ROS 2 node interacting with Unity (conceptual)
+# This Python script demonstrates a ROS 2 node that might send commands to a robot simulated in Unity.
+import rclpy
+from rclpy.node import Node
+from geometry_msgs.msg import Twist
+
+class UnityCommander(Node):
+    def __init__(self):
+        super().__init__('unity_commander')
+        self.publisher_ = self.create_publisher(Twist, 'cmd_vel', 10)
+        timer_period = 1.0  # seconds
+        self.timer = self.create_timer(timer_period, self.timer_callback)
+
+    def timer_callback(self):
+        msg = Twist()
+        msg.linear.x = 0.5  # Move forward
+        msg.angular.z = 0.1 # Turn slightly
+        self.publisher_.publish(msg)
+        self.get_logger().info(f'Sending velocity command: linear.x={msg.linear.x}, angular.z={msg.angular.z}')
+
+def main(args=None):
+    rclpy.init(args=args)
+    unity_commander = UnityCommander()
+    rclpy.spin(unity_commander)
+    unity_commander.destroy_node()
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
+```
+
+<div class="ai-generated-image">
+  <img src="/img/unity-robotics-simulation.png" alt="Unity Robotics Simulation" />
+  <p class="image-caption">AI-Generated Image: Unity Robotics Simulation</p>
+</div>
+
+## Summary
+
+Robotic simulation, using tools like Gazebo and Unity, is crucial for modern robotics. It facilitates efficient design, rigorous testing, and effective training in safe, virtual environments. Gazebo integrates deeply with ROS 2, while Unity offers high-fidelity visuals and ML capabilities, accelerating development for complex humanoid and AI-driven robots.

@@ -1,0 +1,22 @@
+node_modules/
+dist/
+build/
+*.log
+.env*
+.docusaurus/
+.cache/
+*.js.map
+coverage/
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+.vscode/
+.idea/
+
+# Python specific ignores
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
